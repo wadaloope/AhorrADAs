@@ -43,7 +43,8 @@ botonBalance.addEventListener("click", (e) => {
 		selectCategoria = false;
 		selectReporte = false;
 		if (window.innerWidth < 768) {
-			document.getElementsByClassName("links-navegacion")[0]
+			document
+				.getElementsByClassName("links-navegacion")[0]
 				.classList.add("hidden");
 			divisor.classList.add("hidden");
 			botonSuperior.classList.remove("hidden");
@@ -51,7 +52,6 @@ botonBalance.addEventListener("click", (e) => {
 		}
 	}
 });
-
 
 //------------------Seleccion seccion categorias----------------------
 botonCategorias.addEventListener("click", (e) => {
@@ -63,7 +63,8 @@ botonCategorias.addEventListener("click", (e) => {
 		selectCategoria = true;
 		selectReporte = false;
 		if (window.innerWidth < 768) {
-			document.getElementsByClassName("links-navegacion")[0]
+			document
+				.getElementsByClassName("links-navegacion")[0]
 				.classList.add("hidden");
 			divisor.classList.add("hidden");
 			botonSuperior.classList.remove("hidden");
@@ -83,7 +84,8 @@ botonReportes.addEventListener("click", (e) => {
 		selectReporte = true;
 	}
 	if (window.innerWidth < 768) {
-		document.getElementsByClassName("links-navegacion")[0]
+		document
+			.getElementsByClassName("links-navegacion")[0]
 			.classList.add("hidden");
 		divisor.classList.add("hidden");
 		botonSuperior.classList.remove("hidden");
@@ -106,6 +108,7 @@ botonOperacion.addEventListener("click", (e) => {
 	document.getElementById("boton-reportes").style.display = "none";
 	document.getElementById("boton-hamburguesa").classList.add("hidden");
 	console.log(document.getElementById("linea-separacion").classList);
+	cargarPorDefecto();
 });
 
 //------------------------Aceptar nueva operacion-------------------------------
@@ -116,7 +119,9 @@ nuevaOperacion.addEventListener("click", (e) => {
 	document.getElementById("boton-balance").style.display = "flex";
 	document.getElementById("boton-categorias").style.display = "flex";
 	document.getElementById("boton-reportes").style.display = "flex";
-	if (window.innerWidth < 768) document.getElementById("boton-hamburguesa").classList.remove("hidden");
+	if (window.innerWidth < 768)
+		document.getElementById("boton-hamburguesa").classList.remove("hidden");
+	agregarOperacion();
 });
 
 //-------------------------Cancelar nueva operacion-----------------------------
@@ -127,7 +132,8 @@ cancelaOperacion.addEventListener("click", (e) => {
 	document.getElementById("boton-balance").style.display = "flex";
 	document.getElementById("boton-categorias").style.display = "flex";
 	document.getElementById("boton-reportes").style.display = "flex";
-	if (window.innerWidth < 768) document.getElementById("boton-hamburguesa").classList.remove("hidden");
+	if (window.innerWidth < 768)
+		document.getElementById("boton-hamburguesa").classList.remove("hidden");
 });
 
 //-----------------------------Listado de Filtros-------------------------------
@@ -148,3 +154,5 @@ mostrarFiltros.addEventListener("click", (e) => {
 	ocultarFiltros.classList.remove("hidden");
 	mostrarFiltros.classList.add("hidden");
 });
+
+//-------------------------Funcion para agregar operaciones-------------------------
