@@ -3,9 +3,7 @@ let banderaHamburguesa = undefined;
 const botonSuperior = document.getElementById("boton-hamburguesa");
 const divisor = document.getElementById("linea-separacion");
 botonSuperior.addEventListener("click", (e) => {
-	document
-		.getElementsByClassName("links-navegacion")[0]
-		.classList.remove("hidden");
+	document.getElementsByClassName("links-navegacion")[0].classList.remove("hidden");
 	divisor.classList.remove("hidden");
 	botonSuperior.classList.add("hidden");
 	botonSuperiorCierre.classList.remove("hidden");
@@ -15,9 +13,7 @@ botonSuperior.addEventListener("click", (e) => {
 //-------------------Guardado menu hamburguesa------------------------
 const botonSuperiorCierre = document.getElementById("boton-cruz");
 botonSuperiorCierre.addEventListener("click", (e) => {
-	document
-		.getElementsByClassName("links-navegacion")[0]
-		.classList.add("hidden");
+	document.getElementsByClassName("links-navegacion")[0].classList.add("hidden");
 	divisor.classList.add("hidden");
 	botonSuperior.classList.remove("hidden");
 	botonSuperiorCierre.classList.add("hidden");
@@ -43,9 +39,7 @@ botonBalance.addEventListener("click", (e) => {
 		selectCategoria = false;
 		selectReporte = false;
 		if (window.innerWidth < 768) {
-			document
-				.getElementsByClassName("links-navegacion")[0]
-				.classList.add("hidden");
+			document.getElementsByClassName("links-navegacion")[0].classList.add("hidden");
 			divisor.classList.add("hidden");
 			botonSuperior.classList.remove("hidden");
 			botonSuperiorCierre.classList.add("hidden");
@@ -63,9 +57,7 @@ botonCategorias.addEventListener("click", (e) => {
 		selectCategoria = true;
 		selectReporte = false;
 		if (window.innerWidth < 768) {
-			document
-				.getElementsByClassName("links-navegacion")[0]
-				.classList.add("hidden");
+			document.getElementsByClassName("links-navegacion")[0].classList.add("hidden");
 			divisor.classList.add("hidden");
 			botonSuperior.classList.remove("hidden");
 			botonSuperiorCierre.classList.add("hidden");
@@ -84,9 +76,7 @@ botonReportes.addEventListener("click", (e) => {
 		selectReporte = true;
 	}
 	if (window.innerWidth < 768) {
-		document
-			.getElementsByClassName("links-navegacion")[0]
-			.classList.add("hidden");
+		document.getElementsByClassName("links-navegacion")[0].classList.add("hidden");
 		divisor.classList.add("hidden");
 		botonSuperior.classList.remove("hidden");
 		botonSuperiorCierre.classList.add("hidden");
@@ -119,9 +109,9 @@ nuevaOperacion.addEventListener("click", (e) => {
 	document.getElementById("boton-balance").style.display = "flex";
 	document.getElementById("boton-categorias").style.display = "flex";
 	document.getElementById("boton-reportes").style.display = "flex";
-	if (window.innerWidth < 768)
-		document.getElementById("boton-hamburguesa").classList.remove("hidden");
+	if (window.innerWidth < 768) document.getElementById("boton-hamburguesa").classList.remove("hidden");
 	agregarOperacion();
+	completarTabla();
 });
 
 //-------------------------Cancelar nueva operacion-----------------------------
@@ -132,8 +122,7 @@ cancelaOperacion.addEventListener("click", (e) => {
 	document.getElementById("boton-balance").style.display = "flex";
 	document.getElementById("boton-categorias").style.display = "flex";
 	document.getElementById("boton-reportes").style.display = "flex";
-	if (window.innerWidth < 768)
-		document.getElementById("boton-hamburguesa").classList.remove("hidden");
+	if (window.innerWidth < 768) document.getElementById("boton-hamburguesa").classList.remove("hidden");
 });
 
 //-----------------------------Listado de Filtros-------------------------------
