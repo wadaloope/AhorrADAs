@@ -60,11 +60,11 @@ En suma a los lenguajes utilizados, debe señalarse la incorporación de:
 ## Autoras ✒️
 
 - **Ma. Guadalupe Fernandez** - _AhorrADAs_ - [wadaloope](https://github.com/wadaloope/Generador-de-memes)
-- **Melina Eiros** [Meli] (https://github.com/MeliEiros)
+- **Melina Eiros** [Meli](https://github.com/MeliEiros)
 
 ## Agradecimientos 🎁
 
 Agradecemos a las profesoras Aldana Sorni y Clari Arguello por su claridad y paciencia a la hora de explicar este extenso y complejo trabajo.
 
 -⌨️ con ❤️ por [wadaloope](https://github.com/wadaloope) 😊
--⌨️ con ❤️ por [Meli] (https://github.com/MeliEiros) 😊
+-⌨️ con ❤️ por [Meli](https://github.com/MeliEiros) 😊
