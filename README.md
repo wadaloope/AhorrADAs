@@ -67,4 +67,4 @@ En suma a los lenguajes utilizados, debe señalarse la incorporación de:
 Agradecemos a las profesoras Aldana Sorni y Clari Arguello por su claridad y paciencia a la hora de explicar este extenso y complejo trabajo.
 
 -⌨️ con ❤️ por [wadaloope](https://github.com/wadaloope) 😊
--⌨️ con ❤️ por [Meli] (https://github.com/MeliEiros) 😊
+-⌨️ con ❤️ por Meli (https://github.com/MeliEiros) 😊
