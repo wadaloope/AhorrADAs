@@ -1,20 +1,42 @@
 const filtrosElegidos = document.getElementsByClassName("seleccion");
 for (let i = 0; i < filtrosElegidos.length; i++)
 	filtrosElegidos[i].addEventListener("change", (e) => {
-		filtrado(filtrosElegidos[0].value, filtrosElegidos[1].value, filtrosElegidos[2].valueAsNumber, filtrosElegidos[3].valueAsNumber, filtrosElegidos[4].value);
+		filtrado(
+			filtrosElegidos[0].value,
+			filtrosElegidos[1].value,
+			filtrosElegidos[2].valueAsNumber,
+			filtrosElegidos[3].valueAsNumber,
+			filtrosElegidos[4].value
+		);
 	});
 
-const filtrado = (tipoOper, categoriaOper, fechaDesde, fechaHasta, ordenarOper) => {
+const filtrado = (
+	tipoOper,
+	categoriaOper,
+	fechaDesde,
+	fechaHasta,
+	ordenarOper
+) => {
 	const vectorFiltrado = [];
 	const vector_sinFiltrar = descargarStorage();
 	const vectorOperaciones = vector_sinFiltrar.operaciones;
 	console.log(tipoOper, categoriaOper, fechaDesde, fechaHasta, ordenarOper);
 	for (let i = 0; i < vectorOperaciones.length; i++) {
 		const fechaAlmacenada = Date.parse(vectorOperaciones[i].date);
-		if (
+		if (!(isNaN(fechaDesde) && isNaN(fechaHasta))) {
+			if (
+				(vectorOperaciones[i].type == tipoOper || tipoOper == "Todos") &&
+				(vectorOperaciones[i].category == categoriaOper ||
+					categoriaOper === "Todas") &&
+				((fechaAlmacenada >= fechaDesde && fechaAlmacenada <= fechaHasta) ||
+					(isNaN(fechaHasta) && fechaAlmacenada >= fechaDesde) ||
+					(isNaN(fechaDesde) && fechaAlmacenada <= fechaHasta))
+			)
+				vectorFiltrado.push(vectorOperaciones[i]);
+		} else if (
 			(vectorOperaciones[i].type == tipoOper || tipoOper == "Todos") &&
-			(vectorOperaciones[i].category == categoriaOper || categoriaOper === "Todas") &&
-			((fechaAlmacenada >= fechaDesde && fechaAlmacenada <= fechaHasta) || (isNaN(fechaHasta) && fechaAlmacenada >= fechaDesde) || (isNaN(fechaDesde) && fechaAlmacenada <= fechaHasta))
+			(vectorOperaciones[i].category == categoriaOper ||
+				categoriaOper === "Todas")
 		)
 			vectorFiltrado.push(vectorOperaciones[i]);
 	}
