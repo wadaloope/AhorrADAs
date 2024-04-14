@@ -55,12 +55,12 @@ const filtrado = (
 			break;
 		case "mayor-monto":
 			vectorFiltrado.sort((a, b) => {
-				return b.amount - a.amount;
+				return Math.sqrt(b.amount * b.amount) - Math.sqrt(a.amount * a.amount);
 			});
 			break;
 		case "menor-monto":
 			vectorFiltrado.sort((a, b) => {
-				return a.amount - b.amount;
+				return Math.sqrt(a.amount * a.amount) - Math.sqrt(b.amount * b.amount);
 			});
 			break;
 		case "a/z":

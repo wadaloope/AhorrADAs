@@ -118,7 +118,7 @@ const renderizarBalance = (datosPorRenderizar) => {
 		}
 		const entradas = document.querySelectorAll(".cantidad");
 		for (let i = 0; i < entradas.length; i++)
-			if (parseInt(entradas[i].innerHTML) <= 0)
+			if (parseInt(entradas[i].innerHTML) < 0)
 				entradas[i].classList.add("text-red-500");
 			else entradas[i].classList.add("text-green-500");
 	}
@@ -197,4 +197,76 @@ const agregarCategoria = () => {
 		$("#categoria-sumada").value = "";
 		desplegableCategorias();
 	}
+};
+
+const calcularReportes = (vector) => {
+	const porCategorias = [];
+	const sumatorias = [];
+	let acumulador = 0;
+
+	//-----Generacion de un vector en que cada elemento es otro vector cuyos elementos son operaciones de la misma categoria-----
+	for (let i = 0; i < vector.categorias.length; i++) {
+		porCategorias[i] = [];
+		for (let j = 0; j < vector.operaciones.length; j++) {
+			if (vector.categorias[i].name === vector.operaciones[j].category)
+				porCategorias[i].push(vector.operaciones[j]);
+		}
+	}
+
+	//-----Generacion de un vector unidimensional en que cada elemento es un objeto con nombre de categoria y balance de la misma
+	for (let i = 0; i < porCategorias.length; i++) {
+		for (let j = 0; j < porCategorias[i].length; j++)
+			acumulador += porCategorias[i][j].amount;
+		sumatorias.push({
+			valor: acumulador,
+			nombre: porCategorias[i][0].category,
+		});
+		acumulador = 0;
+	}
+
+	//-----Ordenamiento del vector creado en funcion del valor (con signo) de los balances de mayor a menor
+	sumatorias.sort((a, b) => {
+		return b.valor - a.valor;
+	});
+	console.log(sumatorias);
+	//------Inyeccion de los balances calculados en el HTML--------------
+	let lastindex = sumatorias.length - 1;
+	if (sumatorias[0].valor >= 0)
+		document.getElementById(
+			"categorias-top"
+		).innerHTML = `<div class="flex flex-row items-center pb-3">
+	<div class="w-1/2">Categoria con mayor ganancia</div>
+	<div class="w-1/4 text-right"><span class="resumen-1 bg-blue-200 rounded-md">${sumatorias[0].nombre}</span></div>
+	<div class="w-1/4 text-right text-green-500">${sumatorias[0].valor}</div></div>`;
+	else document.getElementById("categorias-top").innerHTML = ``;
+
+	if (sumatorias[lastindex].valor <= 0)
+		document.getElementById(
+			"categorias-bottom"
+		).innerHTML = `<div class="flex flex-row items-center pb-3">
+	<div class="w-1/2">Categoria con mayor gasto</div>
+	<div class="w-1/4 text-right"><span class="resumen-1 bg-blue-200 rounded-md">${sumatorias[lastindex].nombre}</span></div>
+	<div class="w-1/4 text-right text-red-500">${sumatorias[lastindex].valor}</div></div>`;
+	else document.getElementById("categorias-bottom").innerHTML = ``;
+
+	if (sumatorias[lastindex].valor != 0 || sumatorias[0].valor != 0)
+		document.getElementById(
+			"categoria-mayor"
+		).innerHTML = `<div class="flex flex-row items-center pb-3">
+	<div class="w-1/2">Categoria con mayor balance</div>
+	<div class="w-1/4 text-right"><span class="resumen-1 bg-blue-200 rounded-md">${
+		sumatorias[0].valor >
+		Math.sqrt(sumatorias[lastindex].valor * sumatorias[lastindex].valor)
+			? sumatorias[0].nombre
+			: sumatorias[lastindex].nombre
+	}</span></div>
+	<div class="w-1/4 text-right text-gray-500">${
+		sumatorias[0].valor >
+		Math.sqrt(sumatorias[lastindex].valor * sumatorias[lastindex].valor)
+			? sumatorias[0].valor
+			: sumatorias[lastindex].valor
+	}</div></div>`;
+	else document.getElementById("categoria-mayor").innerHTML = ``;
+	/* console.log(gastos, ganancias);
+	console.log(vector); */
 };

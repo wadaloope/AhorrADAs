@@ -1,6 +1,7 @@
 cargarPorDefecto(); //carga de valores por default para local storage
 desplegableCategorias(); //renderizacion de menues desplegables de categorias desde local storage
 renderizarBalance(descargarStorage().operaciones);
+generarBalance(descargarStorage().operaciones);
 //---------------------------------- Desplegado menu hamburguesa -------------------------------
 let banderaHamburguesa = undefined;
 const botonSuperior = document.getElementById("boton-hamburguesa");
@@ -99,6 +100,9 @@ botonReportes.addEventListener("click", (e) => {
 		botonSuperior.classList.remove("hidden");
 		botonSuperiorCierre.classList.add("hidden");
 	}
+
+	if (descargarStorage().operaciones != "")
+		calcularReportes(descargarStorage());
 });
 
 //----------------------------------- Carga de nueva operacion ---------------------------------
