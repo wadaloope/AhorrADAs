@@ -78,6 +78,7 @@ const filtrado = (
 			});
 			break;
 	}
+	console.log(vectorFiltrado);
 	if (vectorFiltrado.length != 0) {
 		renderizarBalance(vectorFiltrado);
 		generarBalance(vectorFiltrado);
@@ -91,6 +92,7 @@ const filtrado = (
 			date: "",
 		};
 		renderizarBalance(lala);
+		generarBalance(lala);
 	}
 	/* //alert("no hay operaciones con tu criterio de busqueda"); // limpiarTabla(); //ordenar el vector y enviar a renderizar */
 };

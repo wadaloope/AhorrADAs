@@ -1,5 +1,5 @@
 const generarBalance = (vector) => {
-	if (vector != "") {
+	if (vector.length != 0) {
 		let displaySumador = document.getElementById("sumador-ganancia");
 		let displayResta = document.getElementById("sumador-gasto");
 		let displaysumaTotal = document.getElementById("sumador-total");
