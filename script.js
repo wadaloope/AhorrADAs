@@ -169,13 +169,3 @@ mostrarFiltros.addEventListener("click", (e) => {
 	ocultarFiltros.classList.remove("hidden");
 	mostrarFiltros.classList.add("hidden");
 });
-
-//----------------------------------------- Boton Borrar----------------------------------------
-const borrar = document.getElementsByClassName("borrar");
-console.log(borrar);
-for (let i = 0; i < borrar.length; i++) {
-	borrar[i].addEventListener("click", (e) => {
-		const identificacion = borrar[i].id;
-		alert(`${identificacion}`);
-	});
-}

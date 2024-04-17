@@ -78,23 +78,8 @@ const filtrado = (
 			});
 			break;
 	}
-	console.log(vectorFiltrado);
-	if (vectorFiltrado.length != 0) {
-		renderizarBalance(vectorFiltrado);
-		generarBalance(vectorFiltrado);
-	} else {
-		const lala = {
-			id: "empty",
-			description: "",
-			category: "",
-			amount: "",
-			type: "",
-			date: "",
-		};
-		renderizarBalance(lala);
-		generarBalance(lala);
-	}
-	/* //alert("no hay operaciones con tu criterio de busqueda"); // limpiarTabla(); //ordenar el vector y enviar a renderizar */
+	renderizarBalance(vectorFiltrado);
+	generarBalance(vectorFiltrado);
 };
 
 //el resultado de este filtrado no debe regresar al local storage ya que estamos filtrando para visualizar el dato desde diferentes criterios, no para modificarlo

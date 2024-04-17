@@ -91,7 +91,9 @@
 						<div
 							class="bg-pink-100 p-3 flex flex-col gap-5 rounded-lg shadow-lg"
 						>
-							<h2 class="text-xl md:text-2xl font-bold pb-3">Balance</h2>
+							<h2 class="text-lg sm:text-xl md:text-2xl font-bold pb-3"
+								>Balance</h2
+							>
 							<div class="flex flex-row text-lg md:text-xl">
 								<div class="w-2/5">Ganancias</div>
 								<div class="dato-balance w-3/5 text-green-500 text-right">
@@ -116,7 +118,9 @@
 							class="bg-green-100 p-3 flex flex-col gap-4 pb-5 rounded-lg shadow-lg"
 						>
 							<div class="flex flex-row items-end">
-								<h2 class="text-xl md:text-2xl font-bold w-2/5">Filtros</h2>
+								<h2 class="text-lg sm:text-xl md:text-2xl font-bold w-2/5"
+									>Filtros</h2
+								>
 								<div
 									class="w-3/5 text-base md:text-lg text-gray-500 text-right"
 								>
@@ -189,10 +193,12 @@
 					</div>
 					<!--Subseccion Operaciones-->
 					<div
-						class="w-auto md:w-2/3 bg-amber-100 p-4 flex flex-col rounded-lg shadow-lg"
+						class="w-auto md:w-2/3 bg-amber-100 py-4 px-2 flex flex-col rounded-lg shadow-lg"
 					>
 						<div class="flex flex-row items-center pb-3">
-							<h2 class="text-xl w-1/2 md:text-2xl font-bold inline-block">
+							<h2
+								class="text-lg sm:text-xl w-1/2 md:text-2xl font-bold inline-block"
+							>
 								Operaciones
 							</h2>
 							<button
@@ -204,17 +210,19 @@
 						</div>
 						<div
 							id="con-operaciones"
-							class="flex flex-row items-center pb-3 hidden"
+							class="flex flex-row justify-between pb-3 hidden text-sm sm:text-base pr-4"
 						>
-							<div class="w-1/4">Descripcion</div>
-							<div class="w-1/4">Categoría</div>
-							<div class="w-1/6 text-right">Fecha</div>
-							<div class="w-1/6 text-right">Monto</div>
-							<div class="w-1/6 text-right">Acciones</div>
+							<div class="w-1/3 sm:w-1/5">Descripcion</div>
+							<div class="sm:w-1/4 hidden sm:inline-block">Categoría</div>
+							<div class="sm:w-1/7 hidden sm:inline-block text-right"
+								>Fecha</div
+							>
+							<div class="w-1/3 sm:w-1/6 text-right">Monto</div>
+							<div class="w-auto sm:w-1/6 text-right">Acciones</div>
 						</div>
 						<div
 							id="small-operaciones"
-							class="h-[430px] overflow-auto hidden"
+							class="h-auto sm:h-[525px] mt-2 sm:overflow-auto hidden"
 						></div>
 						<div id="sin-operaciones" class="py-6">
 							<figure id="imagen-billetera" class="w-3/5 p-3 mx-auto">
@@ -404,7 +412,7 @@
 								/>
 								<button
 									id="sumar-categoria"
-									class="button bg-blue-300 rounded-md w-1/7 sm:w-1/6 shadow-lg"
+									class="button bg-blue-300 rounded-md w-1/7 sm:w-1/6 shadow-lg hover:text-gray-200"
 								>
 									Agregar
 								</button>
@@ -487,6 +495,30 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</section>
+			<section
+				id="ventana-modal"
+				class="w-full h-screen fixed top-0 left-0 bg-red-100/75 flex justify-center items-center z-100 hidden"
+			>
+				<div
+					class="w-[300px] sm:w-[400px] p-[20px] mx-2 sm:mx-0 rounded-lg border-gray-300 border-2 shadow-xl bg-amber-50 flex flex-col items-center justify-center gap-4"
+				>
+					<p id="contenido-modal" class="text-center"
+						>Te estas mandando un cagadon</p
+					>
+					<div class="flex flex-row justify-around gap-6">
+						<button
+							id="aceptacion"
+							class="md:text-sm text-xs text-right h-8 bg-blue-300 px-[4px] hover:text-gray-200 rounded-md"
+							>hola</button
+						>
+						<button
+							id="cancelacion"
+							class="md:text-sm text-xs text-right h-8 bg-blue-300 px-[4px] hover:text-gray-200 rounded-md hidden"
+							>chau</button
+						></div
+					>
 				</div>
 			</section>
 			<footer>

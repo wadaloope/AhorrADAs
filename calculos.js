@@ -85,7 +85,7 @@ const agregarOperacion = () => {
 };
 
 const renderizarBalance = (datosPorRenderizar) => {
-	if (datosPorRenderizar != "") {
+	if (datosPorRenderizar.length != 0) {
 		document.getElementById("con-operaciones").classList.remove("hidden");
 		document.getElementById("sin-operaciones").classList.add("hidden");
 		const tabla = document.getElementById("small-operaciones");
@@ -93,24 +93,24 @@ const renderizarBalance = (datosPorRenderizar) => {
 		tabla.innerHTML = "";
 		for (let i = 0; i < datosPorRenderizar.length; i++) {
 			console.log("hola");
-			tabla.innerHTML += `<div class="flex flex-row items-center pb-3">
-				<div class="w-1/4">
+			tabla.innerHTML += `<div class="flex flex-row items-center justify-between pb-3 text-sm sm:text-base">
+				<div class="w-1/3 sm:w-1/5 text-left overflow-hidden">
 					${datosPorRenderizar[i].description}
 				</div>
-				<div class="w-1/4">
+				<div class="sm:w-1/4 hidden sm:inline-block">
 					${datosPorRenderizar[i].category}
 				</div>
-				<div class="w-1/6 text-right">
+				<div class="sm:w-1/7 hidden sm:inline-block text-right">
 					${datosPorRenderizar[i].date}
 				</div>
-				<div class="w-1/6 text-right cantidad">
+				<div class="w-1/3 sm:w-1/6 text-right cantidad">
 					${datosPorRenderizar[i].amount}
 				</div>
-				<div class="w-1/6 text-right">
-					<button id="${datosPorRenderizar[i].id}EditaBal" title="presione aqui para editar" class="editar bg-white p-1 rounded-md text-blue-500 font-bold hover:text-gray-400">
+				<div class="w-auto text-right ml-1 md:ml-3">
+					<button id="${datosPorRenderizar[i].id}EditaBal" title="presione aqui para editar" class="editarOp bg-white p-1 rounded-md text-blue-500 font-bold hover:text-gray-400">
 						<i class="fa-solid fa-pencil w-5"></i>
 					</button>
-					<button id="${datosPorRenderizar[i].id}BorraBal" title="presione aqui para borrar" class="borrar bg-white p-1 rounded-md text-rose-900 font-bold hover:text-gray-400">
+					<button id="${datosPorRenderizar[i].id}BorraBal" title="presione aqui para borrar" class="borrarOp bg-white p-1 rounded-md text-rose-900 font-bold hover:text-gray-400">
 						<i class="fa-solid fa-trash w-5"></i>
 					</button>
 				</div>
@@ -121,6 +121,26 @@ const renderizarBalance = (datosPorRenderizar) => {
 			if (parseInt(entradas[i].innerHTML) < 0)
 				entradas[i].classList.add("text-red-500");
 			else entradas[i].classList.add("text-green-500");
+	} else {
+		document.getElementById("con-operaciones").classList.add("hidden");
+		document.getElementById("sin-operaciones").classList.remove("hidden");
+		const tabla = document.getElementById("small-operaciones");
+		tabla.classList.add("hidden");
+		tabla.innerHTML = "";
+	}
+
+	const borrarOperacion = document.getElementsByClassName("borrarOp");
+	let identificacion = undefined;
+	for (let i = 0; i < borrarOperacion.length; i++) {
+		borrarOperacion[i].addEventListener("click", (e) => {
+			identificacion = borrarOperacion[i].id.slice(0, -8);
+			crearModal(
+				"Estás seguro de querer eliminar?",
+				"Si, quiero",
+				"No quiero",
+				identificacion
+			);
+		});
 	}
 };
 
@@ -176,7 +196,13 @@ const renderizarCategorias = (categoriasAlmacenadas) => {
 
 			if (contador === 0) {
 				const categoriaRemovida = temporal.categorias.splice(indiceARemover, 1);
-			} else alert("no puedes eliminar esta categoria porque esta en uso");
+			} else
+				crearModal(
+					"No puedes eliminar esta categoria porque esta en uso",
+					"Volver",
+					0,
+					0
+				);
 			subirDatos("", temporal);
 			renderizarCategorias(descargarStorage().categorias);
 			desplegableCategorias();
@@ -232,26 +258,42 @@ const calcularReportes = (vector) => {
 		for (let j = 0; j < vector.operaciones.length; j++) {
 			if (vector.categorias[i].name === vector.operaciones[j].category)
 				porCategorias[i].push(vector.operaciones[j]);
+			else
+				porCategorias[i].push({
+					id: self.crypto.randomUUID(),
+					description: "",
+					amount: "",
+					type: "",
+					category: vector.categorias[i].name,
+					date: "",
+				});
 		}
 	}
-
+	console.log(porCategorias);
 	//-----Generacion de un vector unidimensional en que cada elemento es un objeto con nombre de categoria y balances de la misma
 	for (let i = 0; i < porCategorias.length; i++) {
+		let flag = 0;
 		for (let j = 0; j < porCategorias[i].length; j++) {
-			porCategorias[i][j].type === "Ganancia"
-				? (acumuladorGan += porCategorias[i][j].amount)
-				: (acumuladorGan += 0);
+			if (porCategorias[i][j].amount != "") {
+				porCategorias[i][j].type === "Ganancia"
+					? (acumuladorGan += porCategorias[i][j].amount)
+					: (acumuladorGan += 0);
 
-			porCategorias[i][j].type === "Gasto"
-				? (acumuladorGasto += porCategorias[i][j].amount)
-				: (acumuladorGasto += 0);
+				porCategorias[i][j].type === "Gasto"
+					? (acumuladorGasto += porCategorias[i][j].amount)
+					: (acumuladorGasto += 0);
+				flag += 1;
+			}
 		}
-		sumatoriasCategorias.push({
-			ganancia: acumuladorGan,
-			gasto: acumuladorGasto,
-			valor: acumuladorGan + acumuladorGasto,
-			nombre: porCategorias[i][0].category,
-		});
+		if (flag != 0) {
+			//evitando cargar categorias sin operaciones asociadas
+			sumatoriasCategorias.push({
+				ganancia: acumuladorGan,
+				gasto: acumuladorGasto,
+				valor: acumuladorGan + acumuladorGasto,
+				nombre: porCategorias[i][0].category,
+			});
+		}
 		acumuladorGan = 0;
 		acumuladorGasto = 0;
 	}
@@ -394,3 +436,25 @@ const calcularReportes = (vector) => {
 									<div class="w-1/4 text-gray-500 text-right">${sumatoriasMes[i].valor}</div>
 								</div>`;
 };
+
+//----------------------------------------- Boton Borrar----------------------------------------
+
+//console.log("tontisima");
+
+/* {
+			const operacionesAlmacenadas = descargarStorage().operaciones;
+			for (let i = 0; i < operacionesAlmacenadas.length; i++) {
+				if (operacionesAlmacenadas[i].id === identificacion.slice(0, -8)) {
+
+					 let indiceARemover = operacionesAlmacenadas.operaciones.findIndex(
+						(operacion) => operacion.id === identificacion
+					); 
+				}
+				const operacionRemovida = operacionesAlmacenadas.operaciones.splice(
+					indiceARemover,
+					1
+				);
+			}
+			subirDatos("", operacionesAlmacenadas);
+			renderizarBalance(descargarStorage().operaciones);
+		} */
