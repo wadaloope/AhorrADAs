@@ -126,6 +126,7 @@ botonOperacion.addEventListener("click", (e) => {
 nuevaOperacion.addEventListener("click", (e) => {
 	if (agregarOperacion()) {
 		renderizarBalance(descargarStorage().operaciones);
+		generarBalance(descargarStorage().operaciones);
 		document.getElementById("nueva-operacion").classList.add("hidden");
 		document.getElementById("balance").classList.remove("hidden");
 		selectBalance = true;

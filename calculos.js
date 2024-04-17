@@ -62,7 +62,7 @@ const agregarOperacion = () => {
 		$("#cantidad-entrada").value === 0 ||
 		$("#fecha-entrada").value === ""
 	) {
-		alert("Verifique haber ingresado todos los datos");
+		crearModal("Verificá haber ingresado todos los datos", "Aceptar", 0, 0);
 		return false;
 	} else {
 		let operacion = {
@@ -84,6 +84,94 @@ const agregarOperacion = () => {
 	}
 };
 
+const editarOperacion = (identificador) => {
+	document.getElementById("editar-operacion").classList.remove("hidden");
+	document.getElementById("balance").classList.add("hidden");
+	selectBalance = false;
+	document.getElementById("boton-balance").style.display = "none";
+	document.getElementById("boton-categorias").style.display = "none";
+	document.getElementById("boton-reportes").style.display = "none";
+	document.getElementById("boton-hamburguesa").classList.add("hidden");
+	console.log(document.getElementById("linea-separacion").classList);
+	const temporalParaEditar = descargarStorage();
+	let identflag = "";
+	for (let i = 0; i < temporalParaEditar.operaciones.length; i++)
+		if (identificador === temporalParaEditar.operaciones[i].id) {
+			document.getElementById("edic-descripcion-entrada").value =
+				temporalParaEditar.operaciones[i].description;
+			document.getElementById("edic-cantidad-entrada").value = Math.sqrt(
+				temporalParaEditar.operaciones[i].amount *
+					temporalParaEditar.operaciones[i].amount
+			);
+			document.getElementById("edic-tipo-operacion").value =
+				temporalParaEditar.operaciones[i].type;
+			document.getElementById("edic-seleccion-categoria").value =
+				temporalParaEditar.operaciones[i].category;
+			document.getElementById("edic-fecha-entrada").value =
+				temporalParaEditar.operaciones[i].date.replace(/\//g, "-");
+			identflag = i;
+		}
+
+	document
+		.getElementById("edic-sumar-operacion")
+		.addEventListener("click", (e) => {
+			if (
+				$("#edic-descripcion-entrada").value === "" ||
+				$("#edic-cantidad-entrada").value === 0 ||
+				$("#edic-fecha-entrada").value === ""
+			) {
+				crearModal("Verificá haber ingresado todos los datos", "Aceptar", 0, 0);
+				return false;
+			} else {
+				temporalParaEditar.operaciones[identflag].description = $(
+					"#edic-descripcion-entrada"
+				).value;
+				temporalParaEditar.operaciones[identflag].amount =
+					$("#edic-tipo-operacion").value === "Ganancia"
+						? Number($("#edic-cantidad-entrada").value)
+						: -Number($("#edic-cantidad-entrada").value);
+				temporalParaEditar.operaciones[identflag].type = $(
+					"#edic-tipo-operacion"
+				).value;
+				temporalParaEditar.operaciones[identflag].category = $(
+					"#edic-seleccion-categoria"
+				).value;
+				temporalParaEditar.operaciones[identflag].date = $(
+					"#edic-fecha-entrada"
+				).value.replace(/-/g, "/");
+				subirDatos("", temporalParaEditar);
+				renderizarBalance(descargarStorage().operaciones);
+				generarBalance(descargarStorage().operaciones);
+				document.getElementById("editar-operacion").classList.add("hidden");
+				document.getElementById("balance").classList.remove("hidden");
+				selectBalance = true;
+				document.getElementById("boton-balance").style.display = "flex";
+				document.getElementById("boton-categorias").style.display = "flex";
+				document.getElementById("boton-reportes").style.display = "flex";
+				if (window.innerWidth < 768)
+					document
+						.getElementById("boton-hamburguesa")
+						.classList.remove("hidden");
+				limpiarFormulario();
+				return true;
+			}
+		});
+
+	document
+		.getElementById("edic-cancelar-operacion")
+		.addEventListener("click", (e) => {
+			document.getElementById("editar-operacion").classList.add("hidden");
+			document.getElementById("balance").classList.remove("hidden");
+			selectBalance = true;
+			document.getElementById("boton-balance").style.display = "flex";
+			document.getElementById("boton-categorias").style.display = "flex";
+			document.getElementById("boton-reportes").style.display = "flex";
+			if (window.innerWidth < 768)
+				document.getElementById("boton-hamburguesa").classList.remove("hidden");
+			limpiarFormulario();
+		});
+};
+
 const renderizarBalance = (datosPorRenderizar) => {
 	if (datosPorRenderizar.length != 0) {
 		document.getElementById("con-operaciones").classList.remove("hidden");
@@ -93,7 +181,7 @@ const renderizarBalance = (datosPorRenderizar) => {
 		tabla.innerHTML = "";
 		for (let i = 0; i < datosPorRenderizar.length; i++) {
 			console.log("hola");
-			tabla.innerHTML += `<div class="flex flex-row items-center justify-between pb-3 text-sm sm:text-base">
+			tabla.innerHTML += `<div class="flex flex-row items-center justify-between pb-3 text-sm sm:text-base mx-3">
 				<div class="w-1/3 sm:w-1/5 text-left overflow-hidden">
 					${datosPorRenderizar[i].description}
 				</div>
@@ -106,7 +194,7 @@ const renderizarBalance = (datosPorRenderizar) => {
 				<div class="w-1/3 sm:w-1/6 text-right cantidad">
 					${datosPorRenderizar[i].amount}
 				</div>
-				<div class="w-auto text-right ml-1 md:ml-3">
+				<div class="w-auto sm:w-1/6 text-right ml-1 md:ml-3">
 					<button id="${datosPorRenderizar[i].id}EditaBal" title="presione aqui para editar" class="editarOp bg-white p-1 rounded-md text-blue-500 font-bold hover:text-gray-400">
 						<i class="fa-solid fa-pencil w-5"></i>
 					</button>
@@ -140,6 +228,15 @@ const renderizarBalance = (datosPorRenderizar) => {
 				"No quiero",
 				identificacion
 			);
+		});
+	}
+
+	const editOperacion = document.getElementsByClassName("editarOp");
+	let identOperacion = undefined;
+	for (let i = 0; i < editOperacion.length; i++) {
+		editOperacion[i].addEventListener("click", (e) => {
+			identOperacion = editOperacion[i].id.slice(0, -8);
+			editarOperacion(identOperacion);
 		});
 	}
 };
