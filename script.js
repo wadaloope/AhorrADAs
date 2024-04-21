@@ -44,6 +44,7 @@ botonBalance.addEventListener("click", (e) => {
 		document.getElementById("balance").classList.remove("hidden");
 		document.getElementById("categorias").classList.add("hidden");
 		document.getElementById("reportes").classList.add("hidden");
+		document.getElementById("editar-categorias").classList.add("hidden");
 		selectBalance = true;
 		selectCategoria = false;
 		selectReporte = false;
@@ -88,9 +89,26 @@ botonReportes.addEventListener("click", (e) => {
 		document.getElementById("balance").classList.add("hidden");
 		document.getElementById("categorias").classList.add("hidden");
 		document.getElementById("reportes").classList.remove("hidden");
+		document.getElementById("editar-categorias").classList.add("hidden");
 		selectBalance = false;
 		selectCategoria = false;
 		selectReporte = true;
+		if (descargarStorage().operaciones.length != 0) {
+			document
+				.getElementById("operaciones-insuficientes")
+				.classList.add("hidden");
+			document
+				.getElementById("operaciones-suficientes")
+				.classList.remove("hidden");
+			calcularReportes(descargarStorage());
+		} else {
+			document
+				.getElementById("operaciones-insuficientes")
+				.classList.remove("hidden");
+			document
+				.getElementById("operaciones-suficientes")
+				.classList.add("hidden");
+		}
 	}
 	if (window.innerWidth < 768) {
 		document
@@ -100,9 +118,6 @@ botonReportes.addEventListener("click", (e) => {
 		botonSuperior.classList.remove("hidden");
 		botonSuperiorCierre.classList.add("hidden");
 	}
-
-	if (descargarStorage().operaciones != "")
-		calcularReportes(descargarStorage());
 });
 
 //----------------------------------- Carga de nueva operacion ---------------------------------

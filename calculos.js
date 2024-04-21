@@ -47,6 +47,7 @@ const desplegableCategorias = () => {
 	const desplegable = document.getElementsByClassName("seleccion-categoria");
 	desplegable[0].innerHTML = `<option value="Todas">Todas</option>`;
 	desplegable[1].innerHTML = "";
+	desplegable[2].innerHTML = "";
 	const categoriasAlmacenadas = descargarStorage().categorias;
 	for (let i = 0; i < categoriasAlmacenadas.length; i++) {
 		for (let j = 0; j < desplegable.length; j++)
@@ -62,7 +63,7 @@ const agregarOperacion = () => {
 		$("#cantidad-entrada").value === 0 ||
 		$("#fecha-entrada").value === ""
 	) {
-		crearModal("Verificá haber ingresado todos los datos", "Aceptar", 0, 0);
+		crearModal("Verifica haber ingresado todos los datos", "Aceptar", 0, 0, 0);
 		return false;
 	} else {
 		let operacion = {
@@ -78,7 +79,6 @@ const agregarOperacion = () => {
 		};
 		const datosAlmacenados = descargarStorage();
 		datosAlmacenados.operaciones.push(operacion);
-		console.log(datosAlmacenados);
 		subirDatos("", datosAlmacenados);
 		return true;
 	}
@@ -92,7 +92,6 @@ const editarOperacion = (identificador) => {
 	document.getElementById("boton-categorias").style.display = "none";
 	document.getElementById("boton-reportes").style.display = "none";
 	document.getElementById("boton-hamburguesa").classList.add("hidden");
-	console.log(document.getElementById("linea-separacion").classList);
 	const temporalParaEditar = descargarStorage();
 	let identflag = "";
 	for (let i = 0; i < temporalParaEditar.operaciones.length; i++)
@@ -120,7 +119,13 @@ const editarOperacion = (identificador) => {
 				$("#edic-cantidad-entrada").value === 0 ||
 				$("#edic-fecha-entrada").value === ""
 			) {
-				crearModal("Verificá haber ingresado todos los datos", "Aceptar", 0, 0);
+				crearModal(
+					"Verifica haber ingresado todos los datos",
+					"Aceptar",
+					0,
+					0,
+					0
+				);
 				return false;
 			} else {
 				temporalParaEditar.operaciones[identflag].description = $(
@@ -180,26 +185,25 @@ const renderizarBalance = (datosPorRenderizar) => {
 		tabla.classList.remove("hidden");
 		tabla.innerHTML = "";
 		for (let i = 0; i < datosPorRenderizar.length; i++) {
-			console.log("hola");
-			tabla.innerHTML += `<div class="flex flex-row items-center justify-between pb-3 text-sm sm:text-base mx-3">
-				<div class="w-1/3 sm:w-1/5 text-left overflow-hidden">
+			tabla.innerHTML += `<div class="flex flex-row items-center pb-2 text-sm sm:text-base mx-3 justify-between">
+				<div class="w-1/2 sm:w-2/6 text-left overflow-hidden truncate">
 					${datosPorRenderizar[i].description}
 				</div>
-				<div class="sm:w-1/4 hidden sm:inline-block">
+				<div class="sm:w-1/6 hidden sm:inline-block">
 					${datosPorRenderizar[i].category}
 				</div>
-				<div class="sm:w-1/7 hidden sm:inline-block text-right">
+				<div class="sm:w-1/6 hidden sm:inline-block text-right">
 					${datosPorRenderizar[i].date}
 				</div>
-				<div class="w-1/3 sm:w-1/6 text-right cantidad">
+				<div class="w-3/10 sm:w-1/6 text-right cantidad">
 					${datosPorRenderizar[i].amount}
 				</div>
-				<div class="w-auto sm:w-1/6 text-right ml-1 md:ml-3">
+				<div class="w-3/10 sm:w-1/6 text-right ml-1 md:ml-3">
 					<button id="${datosPorRenderizar[i].id}EditaBal" title="presione aqui para editar" class="editarOp bg-white p-1 rounded-md text-blue-500 font-bold hover:text-gray-400">
-						<i class="fa-solid fa-pencil w-5"></i>
+						<i class="fa-solid fa-pencil w-3 sm:w-5"></i>
 					</button>
 					<button id="${datosPorRenderizar[i].id}BorraBal" title="presione aqui para borrar" class="borrarOp bg-white p-1 rounded-md text-rose-900 font-bold hover:text-gray-400">
-						<i class="fa-solid fa-trash w-5"></i>
+						<i class="fa-solid fa-trash w-3 sm:w-5"></i>
 					</button>
 				</div>
 				</div>`;
@@ -223,10 +227,11 @@ const renderizarBalance = (datosPorRenderizar) => {
 		borrarOperacion[i].addEventListener("click", (e) => {
 			identificacion = borrarOperacion[i].id.slice(0, -8);
 			crearModal(
-				"Estás seguro de querer eliminar?",
+				"Estás segura de querer eliminar?",
 				"Si, quiero",
 				"No quiero",
-				identificacion
+				identificacion,
+				"operacion"
 			);
 		});
 	}
@@ -275,9 +280,10 @@ const renderizarCategorias = (categoriasAlmacenadas) => {
 	}
 
 	const borrarCategoria = document.getElementsByClassName("borrarCat"); //manejador de evento boton borrar
+	let identificacion = undefined;
 	for (let i = 0; i < borrarCategoria.length; i++) {
 		borrarCategoria[i].addEventListener("click", (e) => {
-			let identificacion = borrarCategoria[i].id.slice(0, -8);
+			identificacion = borrarCategoria[i].id.slice(0, -8);
 			const temporal = descargarStorage();
 			let indiceARemover = temporal.categorias.findIndex(
 				(categoria) => categoria.id === identificacion
@@ -292,17 +298,65 @@ const renderizarCategorias = (categoriasAlmacenadas) => {
 			}
 
 			if (contador === 0) {
-				const categoriaRemovida = temporal.categorias.splice(indiceARemover, 1);
+				crearModal(
+					"Estas segura de querer borrar?",
+					"Si, quiero",
+					"No quiero",
+					identificacion,
+					"categoria"
+				);
 			} else
 				crearModal(
 					"No puedes eliminar esta categoria porque esta en uso",
 					"Volver",
 					0,
+					0,
 					0
 				);
-			subirDatos("", temporal);
-			renderizarCategorias(descargarStorage().categorias);
-			desplegableCategorias();
+		});
+	}
+	const EdicionCategoria = document.getElementsByClassName("editarCat");
+	let identificacionCategoria = undefined;
+	for (let i = 0; i < EdicionCategoria.length; i++) {
+		EdicionCategoria[i].addEventListener("click", (e) => {
+			identificacionCategoria = EdicionCategoria[i].id.slice(0, -8);
+			const temporal = descargarStorage();
+			let indiceAEditar = temporal.categorias.findIndex(
+				(categoria) => categoria.id === identificacionCategoria
+			);
+			if (true) {
+				let temporalName = temporal.categorias[indiceAEditar].name;
+				document.getElementById("categorias").classList.add("hidden");
+				document.getElementById("editar-categorias").classList.remove("hidden");
+				document.getElementById("categoria-editada").value =
+					temporal.categorias[indiceAEditar].name;
+				document
+					.getElementById("aceptar-edicion-cat")
+					.addEventListener("click", (e) => {
+						if (document.getElementById("categoria-editada").value != "") {
+							for (let i = 0; i < temporal.operaciones.length; i++)
+								if (
+									temporal.operaciones[i].category ===
+									temporal.categorias[indiceAEditar].name
+								) {
+									temporal.operaciones[i].category =
+										document.getElementById("categoria-editada").value;
+								}
+							temporal.categorias[indiceAEditar].name =
+								document.getElementById("categoria-editada").value;
+							subirDatos("", temporal);
+						} else
+							crearModal("Por favor, completa el nombre", "Acepar", 0, 0, 0);
+						document.getElementById("categorias").classList.remove("hidden");
+						document
+							.getElementById("editar-categorias")
+							.classList.add("hidden");
+						renderizarCategorias(descargarStorage().categorias);
+						renderizarBalance(descargarStorage().operaciones);
+						generarBalance(descargarStorage().operaciones);
+						desplegableCategorias();
+					});
+			}
 		});
 	}
 };
@@ -314,11 +368,19 @@ const agregarCategoria = () => {
 		name: $("#categoria-sumada").value,
 	};
 	if (categoriaNueva.name != "") {
-		datosAlmacenados.categorias.push(categoriaNueva);
-		subirDatos("", datosAlmacenados);
-		renderizarCategorias(descargarStorage().categorias);
-		$("#categoria-sumada").value = "";
-		desplegableCategorias();
+		if (
+			datosAlmacenados.categorias.find(
+				(obj) => obj.name === categoriaNueva.name
+			)
+		)
+			crearModal("Esta categoria ya existe", "Aceptar", 0, 0, 0);
+		else {
+			datosAlmacenados.categorias.push(categoriaNueva);
+			subirDatos("", datosAlmacenados);
+			renderizarCategorias(descargarStorage().categorias);
+			$("#categoria-sumada").value = "";
+			desplegableCategorias();
+		}
 	}
 };
 
@@ -366,7 +428,7 @@ const calcularReportes = (vector) => {
 				});
 		}
 	}
-	console.log(porCategorias);
+
 	//-----Generacion de un vector unidimensional en que cada elemento es un objeto con nombre de categoria y balances de la misma
 	for (let i = 0; i < porCategorias.length; i++) {
 		let flag = 0;
@@ -399,15 +461,12 @@ const calcularReportes = (vector) => {
 	sumatoriasCategorias.sort((a, b) => {
 		return b.valor - a.valor;
 	});
-	console.log(sumatoriasCategorias);
 
 	//-----Generacion de un vector en que cada elemento es otro vector cuyos elementos son operaciones del mismo mes-----
 	for (let i = 1; i < 13; i++) {
 		porMes[i - 1] = [];
 		for (let j = 0; j < vector.operaciones.length; j++) {
 			if (i === parseInt(vector.operaciones[j].date.substring(5, 7))) {
-				console.log(vector.operaciones[j].date);
-				console.log(vector.operaciones[j].date.substring(5, 7));
 				porMes[i - 1].push(vector.operaciones[j]);
 			}
 		}
@@ -437,7 +496,6 @@ const calcularReportes = (vector) => {
 	sumatoriasMes.sort((a, b) => {
 		return b.valor - a.valor;
 	});
-	console.log(porMes, sumatoriasMes);
 
 	//------Inyeccion de los balances calculados en el HTML--------------
 	let lastIndex = sumatoriasCategorias.length - 1;
@@ -533,25 +591,3 @@ const calcularReportes = (vector) => {
 									<div class="w-1/4 text-gray-500 text-right">${sumatoriasMes[i].valor}</div>
 								</div>`;
 };
-
-//----------------------------------------- Boton Borrar----------------------------------------
-
-//console.log("tontisima");
-
-/* {
-			const operacionesAlmacenadas = descargarStorage().operaciones;
-			for (let i = 0; i < operacionesAlmacenadas.length; i++) {
-				if (operacionesAlmacenadas[i].id === identificacion.slice(0, -8)) {
-
-					 let indiceARemover = operacionesAlmacenadas.operaciones.findIndex(
-						(operacion) => operacion.id === identificacion
-					); 
-				}
-				const operacionRemovida = operacionesAlmacenadas.operaciones.splice(
-					indiceARemover,
-					1
-				);
-			}
-			subirDatos("", operacionesAlmacenadas);
-			renderizarBalance(descargarStorage().operaciones);
-		} */

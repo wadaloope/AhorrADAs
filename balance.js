@@ -52,8 +52,28 @@ const eliminarReg = (identificacion) => {
 	}
 };
 
+const eliminarCateg = (identificacion) => {
+	let indiceARemover = undefined;
+	const temporalAlmacenado = descargarStorage();
+	for (let i = 0; i < temporalAlmacenado.categorias.length; i++) {
+		if (temporalAlmacenado.categorias[i].id === identificacion) {
+			indiceARemover = i;
+			console.log("lo encontre", i);
+		}
+	}
+	if (indiceARemover != undefined) {
+		const operacionRemovida = temporalAlmacenado.categorias.splice(
+			indiceARemover,
+			1
+		);
+		subirDatos("", temporalAlmacenado);
+		renderizarCategorias(descargarStorage().categorias);
+		desplegableCategorias();
+	}
+};
+
 //----------------------------------------Creacion de una ventana modal reutilizable-------------------------------------------
-const crearModal = (pregunta, rta1, rta2, nickname) => {
+const crearModal = (pregunta, rta1, rta2, nickname, borrarQue) => {
 	document.getElementById("ventana-modal").classList.remove("hidden");
 	document.getElementById("contenido-modal").innerHTML = `${pregunta}`;
 	document.getElementById("aceptacion").innerHTML = `${rta1}`;
@@ -65,12 +85,13 @@ const crearModal = (pregunta, rta1, rta2, nickname) => {
 	document.getElementById("cancelacion").addEventListener("click", (e) => {
 		document.getElementById("cancelacion").classList.add("hidden");
 		document.getElementById("ventana-modal").classList.add("hidden");
-		return false;
+		pregunta = rta1 = rta2 = borrarQue = undefined;
 	});
 
 	document.getElementById("aceptacion").addEventListener("click", (e) => {
 		document.getElementById("cancelacion").classList.add("hidden");
 		document.getElementById("ventana-modal").classList.add("hidden");
-		if (rta2 != 0) eliminarReg(nickname);
+		if (rta2 != 0 && borrarQue === "operacion") eliminarReg(nickname);
+		if (rta2 != 0 && borrarQue === "categoria") eliminarCateg(nickname);
 	});
 };
