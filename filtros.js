@@ -20,7 +20,6 @@ const filtrado = (
 	const vectorFiltrado = [];
 	const vector_sinFiltrar = descargarStorage();
 	const vectorOperaciones = vector_sinFiltrar.operaciones;
-	console.log(tipoOper, categoriaOper, fechaDesde, fechaHasta, ordenarOper);
 	for (let i = 0; i < vectorOperaciones.length; i++) {
 		const fechaAlmacenada = Date.parse(vectorOperaciones[i].date);
 		if (!(isNaN(fechaDesde) && isNaN(fechaHasta))) {
@@ -40,7 +39,6 @@ const filtrado = (
 		)
 			vectorFiltrado.push(vectorOperaciones[i]);
 	}
-	console.log(vectorFiltrado);
 	//---------------------------------Seleccion de orden--------------------------------
 	switch (ordenarOper) {
 		case "mas-recientes":

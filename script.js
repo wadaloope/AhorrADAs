@@ -134,7 +134,6 @@ botonOperacion.addEventListener("click", (e) => {
 	document.getElementById("boton-categorias").style.display = "none";
 	document.getElementById("boton-reportes").style.display = "none";
 	document.getElementById("boton-hamburguesa").classList.add("hidden");
-	console.log(document.getElementById("linea-separacion").classList);
 });
 
 //----------------------------------- Aceptar nueva operacion ----------------------------------

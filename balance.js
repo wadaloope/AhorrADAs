@@ -31,13 +31,11 @@ const generarBalance = (vector) => {
 //----------------------Debi posicionar aqui estas funciones porque no me estaban respondiendo en los demas js-------------------
 //------------------------------Eliminacion de una operacion en la renderizacion y en el local storage----------------------------
 const eliminarReg = (identificacion) => {
-	console.log("eliminacion de registro oficial");
 	let indiceARemover = undefined;
 	const operacionesAlmacenadas = descargarStorage();
 	for (let i = 0; i < operacionesAlmacenadas.operaciones.length; i++) {
 		if (operacionesAlmacenadas.operaciones[i].id === identificacion) {
 			indiceARemover = i;
-			console.log("lo encontre", i);
 		}
 	}
 	if (indiceARemover != undefined) {
@@ -45,7 +43,6 @@ const eliminarReg = (identificacion) => {
 			indiceARemover,
 			1
 		);
-		console.log(indiceARemover, operacionRemovida);
 		subirDatos("", operacionesAlmacenadas);
 		generarBalance(descargarStorage().operaciones);
 		renderizarBalance(descargarStorage().operaciones);
