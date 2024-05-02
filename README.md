@@ -4,7 +4,7 @@ Este proyecto ofrece resolución al tercer TP correspondiente a la carrera de Fr
 
 ## Descripción 💸
 
-[AhorrADAs](https://github.com/wadaloope/AhorrADAs/deployments/github-pages) consiste en una aplicación web, creada con el objetivo de que se le permita al usuario realizar un seguimiento de sus gastos e ingresos a lo largo de los años.
+[AhorrADAs](https://wadaloope.github.io/AhorrADAs/) consiste en una aplicación web, creada con el objetivo de que se le permita al usuario realizar un seguimiento de sus gastos e ingresos a lo largo de los años.
 
 ![image](https://github.com/wadaloope/AhorrADAs/assets/139147384/0d4bb454-9332-45d9-85f9-8dcfb435d7b6)
 
@@ -45,7 +45,7 @@ En suma a los lenguajes utilizados, debe señalarse la incorporación de:
 
 ## Deployado 💳
 
-[AhorrADAs](https://github.com/wadaloope/AhorrADAs/deployments/github-pages)
+[AhorrADAs](https://wadaloope.github.io/AhorrADAs/)
 
 ### Prerrequisitos 💻
 
@@ -53,7 +53,7 @@ En suma a los lenguajes utilizados, debe señalarse la incorporación de:
 
 ### Instrucciones de uso 🕹️​
 
-1. Accedé a la aplicación: [AhorrADAs](https://github.com/wadaloope/AhorrADAs/deployments/github-pages)
+1. Accedé a la aplicación: [AhorrADAs](https://wadaloope.github.io/AhorrADAs/)
 2. Cargá una operacion, la que desees. Puede ser el pago del alquiler, indicando el monto, la categoría, la fecha y si es gasto o ganancia.
 3. Cuando lo hagas, clickeá en "Agregar" y en la pantalla principal aparecerá esa operacion y todas las que desees cargar.
 4. Luego en la parte de filtros podrás elegir que se filtren y se visualicen solo los de mayor o menor ganancia, los de determinada categoría, de menor a mayor $$.
